@@ -19,7 +19,7 @@ class ObjectsStateHandler:
 
         # add from 1 to 3 new objects in each frame
         for i in range(randint(1, 3)):
-            self.__add_object(total_width=frame_width-10)
+            self.__add_object(total_width=frame_width-100)
 
     # it'll add new objects to the video
     def __add_object(self, total_width):
