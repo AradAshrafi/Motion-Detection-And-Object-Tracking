@@ -1,23 +1,25 @@
 from src.FallingObject import FallingObject
 from random import randint
 
+
 class ObjectsStateHandler:
     def __init__(self):
         self.FallingObjects = []  # all falling objects in frame
+        self.fgbgThreshold = 180
 
     # it'll update falling objects state
-    def update(self, frame):
+    def update(self, frame, foreground_mask):
         frame_height, frame_width, _ = frame.shape  # get openCV frame
         for falling_object in self.FallingObjects:
             # check if falling object is out of bound (lower side of the frame) or not
             if falling_object.y + falling_object.speed >= frame_height:
                 self.FallingObjects.remove(falling_object)
             else:
-                falling_object.update(frame=frame)
+                falling_object.update(frame=frame, foreground_mask=foreground_mask, fgbg_threshold=self.fgbgThreshold)
 
         # add from 1 to 3 new objects in each frame
         for i in range(randint(1, 3)):
-            self.__add_object(total_width=frame_width)
+            self.__add_object(total_width=frame_width-10)
 
     # it'll add new objects to the video
     def __add_object(self, total_width):

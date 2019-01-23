@@ -11,8 +11,10 @@ class FallingObject:
 
         # update object location
 
-    def update(self, frame):
-        self.y += self.speed
+    def update(self, frame, foreground_mask, fgbg_threshold):
+        if foreground_mask[self.y, self.x] < fgbg_threshold:
+            self.y += self.speed
+
         self.__draw(frame)
 
     def __draw(self, frame):
