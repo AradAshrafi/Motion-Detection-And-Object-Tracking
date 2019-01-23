@@ -6,6 +6,8 @@ class ObjectsStateHandler:
     def __init__(self):
         self.FallingObjects = []  # all falling objects in frame
         self.fgbgThreshold = 180
+        self.FallingObjectsLimit = 25  # To Prevent Lag and Better Performance
+        # this field could be removed in systems with good architecture
 
     # it'll update falling objects state
     def update(self, frame, foreground_mask):
@@ -19,9 +21,11 @@ class ObjectsStateHandler:
 
         # draw all objects
         self.draw_objects(frame=frame)
-        # add from 0 to 1 new objects in each frame
-        for i in range(randint(0, 1)):
-            self.__add_object(total_width=frame_width - 100)
+
+        if len(self.FallingObjects) < self.FallingObjectsLimit:
+            # add from 0 or 1 new objects in each frame
+            for i in range(randint(0, 1)):
+                self.__add_object(total_width=frame_width - 100)
 
         print(self.FallingObjects.__len__())
 
@@ -38,4 +42,5 @@ class ObjectsStateHandler:
     # draw all objects
     def draw_objects(self, frame):
         for falling_object in self.FallingObjects:
+            # calling each object draw method to draw itself
             falling_object.draw(frame=frame)

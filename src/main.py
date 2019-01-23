@@ -54,8 +54,9 @@ def main():
             break
         # apply foreground background subtraction
         fg_mask = fgbg.apply(frame)
-        # update frame state with falling objects using foreground mask
+        # using counter to update objects location just in one frame in each two frames for better performance(less lag)
         if frames_counter == frames_limit:
+            # update frame state with falling objects using foreground mask
             state.update(frame=frame, foreground_mask=fg_mask)
             frames_counter = 0
         else:
