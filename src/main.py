@@ -38,8 +38,13 @@ def main():
     # get video writer in 640*480 size (matches frame size)
     video_writer = __create_video_writer()
 
+    # it'll count up tpo frames limit to add effect
+    # after adding effect it'll again start to count
+    frames_counter = 0
+    frames_limit = 1
     # foreground background separator
-    fgbg = cv2.createBackgroundSubtractorKNN(history=1000)
+    fgbg = cv2.createBackgroundSubtractorKNN(history=500)
+    # fgbg = cv2.createBackgroundSubtractorMOG2(varThreshold=4, history=1000)
     # in web cam mode it will loop until user get tired :D
     # in offline mode it will loop until video finished
     while True:
@@ -50,13 +55,21 @@ def main():
         # apply foreground background subtraction
         fg_mask = fgbg.apply(frame)
         # update frame state with falling objects using foreground mask
-        state.update(frame=frame, foreground_mask=fg_mask)
+        if frames_counter == frames_limit:
+            state.update(frame=frame, foreground_mask=fg_mask)
+            frames_counter = 0
+        else:
+            state.draw_objects(frame=frame)
 
-        cv2.imshow("snowish :D", frame)  # show image with snowflakes effect on i :D
+        cv2.imshow("snowish :D", frame)  # show image with snowflakes and raindrop effect on it :D
         video_writer.write(frame)
         k = cv2.waitKey(30) & 0xff
         if k == 27:
             break
+
+        # count up too frames' limit
+        frames_counter += 1
+
     cap.release()
     cv2.destroyAllWindows()
 
