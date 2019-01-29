@@ -1,5 +1,7 @@
 using openCV to detect motion and make reactive video
-objectives : 1 - separate background and foreground
-             2 - make added objects(effects) stop when it reaches foreground border(which are falling from top)
-             3 - work with both web cam(online) and local dataset (offline)
-             4 - save everything that happens during reaction into an output file
+
+objectives :
+- [X] separate background and foreground
+- [X] make added objects(effects) stop when it reaches foreground border(which are falling from top)
+- [X] work with both web cam(online) and local dataset (offline)
+- [X] save everything that happens during reaction into an output file
